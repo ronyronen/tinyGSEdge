@@ -78,14 +78,20 @@ ConfigManager::ConfigManager()
   groupMqtt.addItem(&mqttPassParam);
   addParameterGroup(&groupMqtt);
 
-  groupBoardConfig.addItem(&boardParam);
-  groupBoardConfig.addItem(&oledBrightParam);
-  groupBoardConfig.addItem(&AllowTxParam);
-  groupBoardConfig.addItem(&remoteTuneParam);
-  groupBoardConfig.addItem(&telemetry3rdParam);
-  groupBoardConfig.addItem(&testParam);
-  groupBoardConfig.addItem(&autoUpdateParam);
-  addParameterGroup(&groupBoardConfig);
+    groupMqttGS.addItem(&mqttgsServerParam);
+    groupMqttGS.addItem(&mqttgsPortParam);
+    groupMqttGS.addItem(&mqttgsUserParam);
+    groupMqttGS.addItem(&mqttgsPassParam);
+    addParameterGroup(&groupMqttGS);
+
+    groupBoardConfig.addItem(&boardParam);
+    groupBoardConfig.addItem(&oledBrightParam);
+    groupBoardConfig.addItem(&AllowTxParam);
+    groupBoardConfig.addItem(&remoteTuneParam);
+    groupBoardConfig.addItem(&telemetry3rdParam);
+    groupBoardConfig.addItem(&testParam);
+    groupBoardConfig.addItem(&autoUpdateParam);
+    addParameterGroup(&groupBoardConfig);
 
   groupAdvanced.addItem(&boardTemplateParam);
   groupAdvanced.addItem(&modemParam);
@@ -449,28 +455,31 @@ void ConfigManager::resetAPConfig()
   saveConfig();
 }
 
-void ConfigManager::resetAllConfig()
-{
-  getWifiSsidParameter()->valueBuffer[0] = '\0';
-  getWifiPasswordParameter()->valueBuffer[0] = '\0';
-  strncpy(getApPasswordParameter()->valueBuffer, initialApPassword, IOTWEBCONF_WORD_LEN);
-  strncpy(getThingNameParameter()->valueBuffer, thingName, IOTWEBCONF_WORD_LEN);
-  strncpy(getThingName(), thingName, IOTWEBCONF_WORD_LEN);
-  strncpy(mqttPortParam.valueBuffer, MQTT_DEFAULT_PORT, MQTT_PORT_LENGTH);
-  strncpy(mqttServerParam.valueBuffer, MQTT_DEFAULT_SERVER, MQTT_SERVER_LENGTH);
-  mqttUserParam.valueBuffer[0] = '\0';
-  mqttPassParam.valueBuffer[0] = '\0';
-  latitude[0] = '\0';
-  longitude[0] = '\0';
-  oledBright[0] = '\0';
-  allowTx[0] = '\0';
-  remoteTune[0] = '\0';
-  telemetry3rd[0] = '\0';
-  testMode[0] = '\0';
-  autoUpdate[0] = '\0';
-  boardTemplate[0] = '\0';
-  modemStartup[0] = '\0';
-  advancedConfig[0] = '\0';
+void ConfigManager::resetAllConfig() {
+    getWifiSsidParameter()->valueBuffer[0] = '\0';
+    getWifiPasswordParameter()->valueBuffer[0] = '\0';
+    strncpy(getApPasswordParameter()->valueBuffer, initialApPassword, IOTWEBCONF_WORD_LEN);
+    strncpy(getThingNameParameter()->valueBuffer, thingName, IOTWEBCONF_WORD_LEN);
+    strncpy(getThingName(), thingName, IOTWEBCONF_WORD_LEN);
+    strncpy(mqttPortParam.valueBuffer, MQTT_DEFAULT_PORT, MQTT_PORT_LENGTH);
+    strncpy(mqttServerParam.valueBuffer, MQTT_DEFAULT_SERVER, MQTT_SERVER_LENGTH);
+    mqttUserParam.valueBuffer[0] = '\0';
+    mqttPassParam.valueBuffer[0] = '\0';
+    strncpy(mqttgsPortParam.valueBuffer, MQTT_DEFAULT_PORT, MQTT_PORT_LENGTH);
+    strncpy(mqttgsServerParam.valueBuffer, MQTT_DEFAULT_SERVER, MQTT_SERVER_LENGTH);
+    mqttgsUserParam.valueBuffer[0] = '\0';
+    mqttgsPassParam.valueBuffer[0] = '\0';
+    latitude[0] = '\0';
+    longitude[0] = '\0';
+    oledBright[0] = '\0';
+    allowTx[0] = '\0';
+    remoteTune[0] = '\0';
+    telemetry3rd[0] = '\0';
+    testMode[0] = '\0';
+    autoUpdate[0] = '\0';
+    boardTemplate[0] = '\0';
+    modemStartup[0] = '\0';
+    advancedConfig[0] = '\0';
 
   saveConfig();
 }

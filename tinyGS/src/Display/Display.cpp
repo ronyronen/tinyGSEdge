@@ -105,7 +105,7 @@ void msOverlay(OLEDDisplay *display, OLEDDisplayUiState* state)
   {
     oldOledBright = ConfigManager::getInstance().getOledBright(); 
     if (ConfigManager::getInstance().getOledBright()==0) {
-      display->displayOff();
+//      display->displayOff();
     }
     else
     {

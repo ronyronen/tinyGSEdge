@@ -784,15 +784,25 @@ void MQTT_Client::remoteSetFreqOffset(char *payload, size_t payload_len)
 }
 
 // Helper class to use as a callback
-void manageMQTTDataCallback(char *topic, uint8_t *payload, unsigned int length)
-{
-  Log::debug(PSTR("Received MQTT message: %s : %.*s"), topic, length, payload);
-  MQTT_Client::getInstance().manageMQTTData(topic, payload, length);
+void manageMQTTDataCallback(char *topic, uint8_t *payload, unsigned int length) {
+    Log::debug(PSTR("Received MQTT message: %s : %.*s"), topic, length, payload);
+    MQTT_Client::getInstance().sendMQTTData(topic, payload, length);
+    MQTT_Client::getInstance().manageMQTTData(topic, payload, length);
 }
 
-void MQTT_Client::begin()
-{
-  ConfigManager &configManager = ConfigManager::getInstance();
-  setServer(configManager.getMqttServer(), configManager.getMqttPort());
-  setCallback(manageMQTTDataCallback);
+// Helper class to use as a callback
+void MQTT_Client::sendMQTTData(char *topic, uint8_t *payload, unsigned int length) {
+    Log::debug(PSTR("Received MQTT message: %s : %.*s"), topic, length, payload);
+    Log::console(PSTR("send MQTT Data message: %s : %.*s"), topic, length, payload);
+    // Send the received message to SATLLA_GS
+    MQTTGS_Client clientGs = MQTTGS_Client::getInstance();
+    char buffer[length + 1];
+    memcpy(buffer, payload, length);
+    clientGs.publish(topic, buffer, false);
+}
+
+void MQTT_Client::begin() {
+    ConfigManager &configManager = ConfigManager::getInstance();
+    setServer(configManager.getMqttServer(), configManager.getMqttPort());
+    setCallback(manageMQTTDataCallback);
 }

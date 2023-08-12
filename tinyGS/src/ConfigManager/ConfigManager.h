@@ -131,79 +131,102 @@ public:
   boolean init();
   void printConfig();
 
-  uint16_t getMqttPort() { return (uint16_t)atoi(mqttPort); }
-  const char *getMqttServer() { return mqttServer; }
-  const char *getMqttUser() { return mqttUser; }
-  const char *getMqttPass() { return mqttPass; }
-  float getLatitude() { return atof(latitude); }
-  float getLongitude() { return atof(longitude); }
-  const char *getTZ() { return tz + 3; } // +3 removes the first 3 digits used for time zone deduplication
-  uint8_t getBoard() { return atoi(board); }
-  uint8_t getOledBright() { return atoi(oledBright); }
-  bool getAllowTx() { return !strcmp(allowTx, CB_SELECTED_STR); }
-  bool getRemoteTune() { return !strcmp(remoteTune, CB_SELECTED_STR); }
-  bool getTelemetry3rd() { return !strcmp(telemetry3rd, CB_SELECTED_STR); }
-  bool getTestMode() { return !strcmp(testMode, CB_SELECTED_STR); }
-  bool getAutoUpdate() { return !strcmp(autoUpdate, CB_SELECTED_STR); }
-  void setAllowTx(bool status)
-  {
-    if (status)
-      strcpy(allowTx, CB_SELECTED_STR);
-    else
-      allowTx[0] = '\0';
-    this->saveConfig();
-  }
-  void setRemoteTune(bool status)
-  {
-    if (status)
-      strcpy(remoteTune, CB_SELECTED_STR);
-    else
-      remoteTune[0] = '\0';
-    this->saveConfig();
-  }
-  void setTelemetry3rd(bool status)
-  {
-    if (status)
-      strcpy(telemetry3rd, CB_SELECTED_STR);
-    else
-      telemetry3rd[0] = '\0';
-    this->saveConfig();
-  }
-  void setTestMode(bool status)
-  {
-    if (status)
-      strcpy(testMode, CB_SELECTED_STR);
-    else
-      testMode[0] = '\0';
-    this->saveConfig();
-  }
-  void setAutoUpdate(bool status)
-  {
-    if (status)
-      strcpy(autoUpdate, CB_SELECTED_STR);
-    else
-      autoUpdate[0] = '\0';
-    this->saveConfig();
-  }
-  const char *getModemStartup() { return modemStartup; }
-  void setModemStartup(const char *modemStr)
-  {
-    strcpy(modemStartup, modemStr);
-    this->saveConfig();
-    parseModemStartup();
-  }
-  const char *getAvancedConfig() { return advancedConfig; }
-  void setAvancedConfig(const char *adv_prmStr)
-  {
-    strcpy(advancedConfig, adv_prmStr);
-    this->saveConfig();
-  }
-  const char *getBoardTemplate() { return boardTemplate; }
-  void setBoardTemplate(const char *boardTemplateStr)
-  {
-    strcpy(boardTemplate, boardTemplateStr);
-    this->saveConfig();
-  }
+    uint16_t getMqttPort() { return (uint16_t) atoi(mqttPort); }
+
+    const char *getMqttServer() { return mqttServer; }
+
+    const char *getMqttUser() { return mqttUser; }
+
+    const char *getMqttPass() { return mqttPass; }
+
+    uint16_t getMqttGSPort() { return (uint16_t) atoi(mqttgsPort); }
+
+    const char *getMqttGSServer() { return mqttgsServer; }
+
+    const char *getMqttGSUser() { return mqttgsUser; }
+
+    const char *getMqttGSPass() { return mqttgsPass; }
+
+    float getLatitude() { return atof(latitude); }
+
+    float getLongitude() { return atof(longitude); }
+
+    const char *getTZ() { return tz + 3; } // +3 removes the first 3 digits used for time zone deduplication
+    uint8_t getBoard() { return atoi(board); }
+
+    uint8_t getOledBright() { return atoi(oledBright); }
+
+    bool getAllowTx() { return !strcmp(allowTx, CB_SELECTED_STR); }
+
+    bool getRemoteTune() { return !strcmp(remoteTune, CB_SELECTED_STR); }
+
+    bool getTelemetry3rd() { return !strcmp(telemetry3rd, CB_SELECTED_STR); }
+
+    bool getTestMode() { return !strcmp(testMode, CB_SELECTED_STR); }
+
+    bool getAutoUpdate() { return !strcmp(autoUpdate, CB_SELECTED_STR); }
+
+    void setAllowTx(bool status) {
+        if (status)
+            strcpy(allowTx, CB_SELECTED_STR);
+        else
+            allowTx[0] = '\0';
+        this->saveConfig();
+    }
+
+    void setRemoteTune(bool status) {
+        if (status)
+            strcpy(remoteTune, CB_SELECTED_STR);
+        else
+            remoteTune[0] = '\0';
+        this->saveConfig();
+    }
+
+    void setTelemetry3rd(bool status) {
+        if (status)
+            strcpy(telemetry3rd, CB_SELECTED_STR);
+        else
+            telemetry3rd[0] = '\0';
+        this->saveConfig();
+    }
+
+    void setTestMode(bool status) {
+        if (status)
+            strcpy(testMode, CB_SELECTED_STR);
+        else
+            testMode[0] = '\0';
+        this->saveConfig();
+    }
+
+    void setAutoUpdate(bool status) {
+        if (status)
+            strcpy(autoUpdate, CB_SELECTED_STR);
+        else
+            autoUpdate[0] = '\0';
+        this->saveConfig();
+    }
+
+    const char *getModemStartup() { return modemStartup; }
+
+    void setModemStartup(const char *modemStr) {
+        strcpy(modemStartup, modemStr);
+        this->saveConfig();
+        parseModemStartup();
+    }
+
+    const char *getAvancedConfig() { return advancedConfig; }
+
+    void setAvancedConfig(const char *adv_prmStr) {
+        strcpy(advancedConfig, adv_prmStr);
+        this->saveConfig();
+    }
+
+    const char *getBoardTemplate() { return boardTemplate; }
+
+    void setBoardTemplate(const char *boardTemplateStr) {
+        strcpy(boardTemplate, boardTemplateStr);
+        this->saveConfig();
+    }
 
   const char *getWiFiSSID() { return getWifiSsidParameter()->valueBuffer; }
   bool isConnected() { return getState() == IOTWEBCONF_STATE_ONLINE; };
@@ -265,23 +288,27 @@ private:
   char savedThingName[IOTWEBCONF_WORD_LEN] = "";
   bool remoteSave = false;
 
-  char latitude[COORDINATE_LENGTH] = "";
-  char longitude[COORDINATE_LENGTH] = "";
-  char tz[TZ_LENGTH] = "";
-  char mqttServer[MQTT_SERVER_LENGTH] = MQTT_DEFAULT_SERVER;
-  char mqttPort[MQTT_PORT_LENGTH] = MQTT_DEFAULT_PORT;
-  char mqttUser[MQTT_USER_LENGTH] = "";
-  char mqttPass[MQTT_PASS_LENGTH] = "";
-  char board[BOARD_LENGTH] = "";
-  char oledBright[NUMBER_LEN] = "";
-  char allowTx[CHECKBOX_LENGTH] = "";
-  char remoteTune[CHECKBOX_LENGTH] = "";
-  char telemetry3rd[CHECKBOX_LENGTH] = "";
-  char testMode[CHECKBOX_LENGTH] = "";
-  char autoUpdate[CHECKBOX_LENGTH] = "";
-  char boardTemplate[TEMPLATE_LEN] = "";
-  char modemStartup[MODEM_LEN] = MODEM_DEFAULT;
-  char advancedConfig[ADVANCED_LEN] = "";
+    char latitude[COORDINATE_LENGTH] = "";
+    char longitude[COORDINATE_LENGTH] = "";
+    char tz[TZ_LENGTH] = "";
+    char mqttServer[MQTT_SERVER_LENGTH] = MQTT_DEFAULT_SERVER;
+    char mqttPort[MQTT_PORT_LENGTH] = MQTT_DEFAULT_PORT;
+    char mqttUser[MQTT_USER_LENGTH] = "";
+    char mqttPass[MQTT_PASS_LENGTH] = "";
+    char mqttgsServer[MQTT_SERVER_LENGTH] = MQTT_DEFAULT_SERVER;
+    char mqttgsPort[MQTT_PORT_LENGTH] = MQTT_DEFAULT_PORT;
+    char mqttgsUser[MQTT_USER_LENGTH] = "";
+    char mqttgsPass[MQTT_PASS_LENGTH] = "";
+    char board[BOARD_LENGTH] = "";
+    char oledBright[NUMBER_LEN] = "";
+    char allowTx[CHECKBOX_LENGTH] = "";
+    char remoteTune[CHECKBOX_LENGTH] = "";
+    char telemetry3rd[CHECKBOX_LENGTH] = "";
+    char testMode[CHECKBOX_LENGTH] = "";
+    char autoUpdate[CHECKBOX_LENGTH] = "";
+    char boardTemplate[TEMPLATE_LEN] = "";
+    char modemStartup[MODEM_LEN] = MODEM_DEFAULT;
+    char advancedConfig[ADVANCED_LEN] = "";
 
   iotwebconf2::NumberParameter latitudeParam = iotwebconf2::NumberParameter("Latitude (3 decimals, will be public)", "lat", latitude, COORDINATE_LENGTH, NULL, "0.000", "required min='-180' max='180' step='0.001'");
   iotwebconf2::NumberParameter longitudeParam = iotwebconf2::NumberParameter("Longitude (3 decimals, will be public)", "lng", longitude, COORDINATE_LENGTH, NULL, "-0.000", "required min='-180' max='180' step='0.001'");
@@ -293,14 +320,43 @@ private:
   iotwebconf2::TextParameter mqttUserParam = iotwebconf2::TextParameter("MQTT Username", "mqtt_user", mqttUser, MQTT_USER_LENGTH, NULL, NULL, "required type=\"text\" maxlength=30");
   iotwebconf2::TextParameter mqttPassParam = iotwebconf2::TextParameter("MQTT Password", "mqtt_pass", mqttPass, MQTT_PASS_LENGTH, NULL, NULL, "required type=\"text\" maxlength=30");
 
-  iotwebconf2::ParameterGroup groupBoardConfig = iotwebconf2::ParameterGroup("Board config", "Board config");
-  iotwebconf2::SelectParameter boardParam = iotwebconf2::SelectParameter("Board type", "board", board, BOARD_LENGTH, (char *)BOARD_VALUES, (char *)BOARD_NAMES, sizeof(BOARD_VALUES) / BOARD_LENGTH, BOARD_NAME_LENGTH);
-  iotwebconf2::NumberParameter oledBrightParam = iotwebconf2::NumberParameter("OLED Bright", "oled_bright", oledBright, NUMBER_LEN, "100", "0..100", "min='0' max='100' step='1'");
-  iotwebconf2::CheckboxParameter AllowTxParam = iotwebconf2::CheckboxParameter("Enable TX (HAM licence/ no preamp)", "tx", allowTx, CHECKBOX_LENGTH, true);
-  iotwebconf2::CheckboxParameter remoteTuneParam = iotwebconf2::CheckboxParameter("Allow Automatic Tuning", "remote_tune", remoteTune, CHECKBOX_LENGTH, true);
-  iotwebconf2::CheckboxParameter telemetry3rdParam = iotwebconf2::CheckboxParameter("Allow sending telemetry to third party", "telemetry3rd", telemetry3rd, CHECKBOX_LENGTH, true);
-  iotwebconf2::CheckboxParameter testParam = iotwebconf2::CheckboxParameter("Test mode", "test", testMode, CHECKBOX_LENGTH, false);
-  iotwebconf2::CheckboxParameter autoUpdateParam = iotwebconf2::CheckboxParameter("Automatic Firmware Update", "auto_update", autoUpdate, CHECKBOX_LENGTH, true);
+    iotwebconf2::ParameterGroup groupMqttGS = iotwebconf2::ParameterGroup("MQTTGS credentials",
+                                                                          "MQTTGS credentials (get them <a href='https://t.me/joinchat/DmYSElZahiJGwHX6jCzB3Q'>here</a>)");
+    iotwebconf2::TextParameter mqttgsServerParam = iotwebconf2::TextParameter("Server address", "mqttgs_server",
+                                                                              mqttgsServer, MQTT_SERVER_LENGTH,
+                                                                              MQTT_DEFAULT_SERVER, MQTT_DEFAULT_SERVER,
+                                                                              "required type=\"text\" maxlength=30");
+    iotwebconf2::NumberParameter mqttgsPortParam = iotwebconf2::NumberParameter("Server Port", "mqttgs_port",
+                                                                                mqttgsPort, MQTT_PORT_LENGTH,
+                                                                                MQTT_DEFAULT_PORT, MQTT_DEFAULT_PORT,
+                                                                                "required min=\"0\" max=\"65536\" step=\"1\"");
+    iotwebconf2::TextParameter mqttgsUserParam = iotwebconf2::TextParameter("MQTTGS Username", "mqttgs_user",
+                                                                            mqttgsUser, MQTT_USER_LENGTH, NULL, NULL,
+                                                                            "required type=\"text\" maxlength=30");
+    iotwebconf2::TextParameter mqttgsPassParam = iotwebconf2::TextParameter("MQTTGS Password", "mqttgs_pass",
+                                                                            mqttgsPass, MQTT_PASS_LENGTH, NULL, NULL,
+                                                                            "required type=\"text\" maxlength=30");
+
+    iotwebconf2::ParameterGroup groupBoardConfig = iotwebconf2::ParameterGroup("Board config", "Board config");
+    iotwebconf2::SelectParameter boardParam = iotwebconf2::SelectParameter("Board type", "board", board, BOARD_LENGTH,
+                                                                           (char *) BOARD_VALUES, (char *) BOARD_NAMES,
+                                                                           sizeof(BOARD_VALUES) / BOARD_LENGTH,
+                                                                           BOARD_NAME_LENGTH);
+    iotwebconf2::NumberParameter oledBrightParam = iotwebconf2::NumberParameter("OLED Bright", "oled_bright",
+                                                                                oledBright, NUMBER_LEN, "100", "0..100",
+                                                                                "min='0' max='100' step='1'");
+    iotwebconf2::CheckboxParameter AllowTxParam = iotwebconf2::CheckboxParameter("Enable TX (HAM licence/ no preamp)",
+                                                                                 "tx", allowTx, CHECKBOX_LENGTH, true);
+    iotwebconf2::CheckboxParameter remoteTuneParam = iotwebconf2::CheckboxParameter("Allow Automatic Tuning",
+                                                                                    "remote_tune", remoteTune,
+                                                                                    CHECKBOX_LENGTH, true);
+    iotwebconf2::CheckboxParameter telemetry3rdParam = iotwebconf2::CheckboxParameter(
+            "Allow sending telemetry to third party", "telemetry3rd", telemetry3rd, CHECKBOX_LENGTH, true);
+    iotwebconf2::CheckboxParameter testParam = iotwebconf2::CheckboxParameter("Test mode", "test", testMode,
+                                                                              CHECKBOX_LENGTH, false);
+    iotwebconf2::CheckboxParameter autoUpdateParam = iotwebconf2::CheckboxParameter("Automatic Firmware Update",
+                                                                                    "auto_update", autoUpdate,
+                                                                                    CHECKBOX_LENGTH, true);
 
   iotwebconf2::ParameterGroup groupAdvanced = iotwebconf2::ParameterGroup("Advanced config", "Advanced Config (do not modify unless you know what you are doing)");
   iotwebconf2::TextParameter boardTemplateParam = iotwebconf2::TextParameter("Board Template (requires manual restart)", "board_template", boardTemplate, TEMPLATE_LEN, NULL, NULL, "type=\"text\" maxlength=255");

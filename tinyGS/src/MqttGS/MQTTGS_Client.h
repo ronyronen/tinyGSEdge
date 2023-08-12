@@ -17,21 +17,19 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef MQTT_CLIENT_H
-#define MQTT_CLIENT_H
+#ifndef MQTTGS_CLIENT_H
+#define MQTTGS_CLIENT_H
 
-#define SECURE_MQTT // Comment this line if you are not using MQTT over SSL
-#define LOG_TAG "MQTT"
+//#define SECURE_MQTTGS // Comment this line if you are not using MQTT over SSL
+//#define LOG_TAG "MQTTGS"
 
 #include "../ConfigManager/ConfigManager.h"
 #include "../Status.h"
 #include <PubSubClient.h>
-#include "../MqttGS/MQTTGS_Client.h"
-
 #if MQTT_MAX_PACKET_SIZE != 1000  && !PLATFORMIO
-#error "Using Arduino IDE is not recommended, please follow this guide https://github.com/G4lile0/tinyGS/wiki/Arduino-IDE or edit /PubSubClient/src/PubSubClient.h  and set #define MQTT_MAX_PACKET_SIZE 1000"
+#error "Using Arduino IDE is not recommended, please follow this guide https://github.com/G4lile0/tinyGS/wiki/Arduino-IDE or edit /PubSubClient/src/PubSubClient.h  and set #define MQTTGS_MAX_PACKET_SIZE 1000"
 #endif
-#ifdef SECURE_MQTT
+#ifdef SECURE_MQTTGS
 #include <WiFiClientSecure.h>
 #include "../certs.h"
 #else
@@ -40,25 +38,24 @@
 
 extern Status status;
 
-class MQTT_Client : public PubSubClient {
+class MQTTGS_Client : public PubSubClient {
 public:
-  static MQTT_Client& getInstance()
+  static MQTTGS_Client& getInstance()
   {
-    static MQTT_Client instance; 
+    static MQTTGS_Client instance; 
     return instance;
   }
   void begin();
   void loop();
   void sendWelcome();
   void sendRx(String packet, bool noisy);
-  void manageMQTTData(char *topic, uint8_t *payload, unsigned int length);
+  void manageMQTTGSData(char *topic, uint8_t *payload, unsigned int length);
   void sendStatus();
   void sendAdvParameters();
   void scheduleRestart() { scheduledRestart = true; };
-  void sendMQTTData(char *topic, uint8_t *payload, unsigned int length);
 
 protected:
-#ifdef SECURE_MQTT
+#ifdef SECURE_MQTTGS
   WiFiClientSecure espClient;
 #else
   WiFiClient espClient;
@@ -66,7 +63,7 @@ protected:
   void reconnect();
 
 private:
-  MQTT_Client();
+  MQTTGS_Client();
   String buildTopic(const char * baseTopic, const char * cmnd);
   void subscribeToAll();
   void manageSatPosOled(char* payload, size_t payload_len);

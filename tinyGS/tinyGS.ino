@@ -72,6 +72,7 @@
 #include "src/ConfigManager/ConfigManager.h"
 #include "src/Display/Display.h"
 #include "src/Mqtt/MQTT_Client.h"
+#include "src/MqttGS/MQTTGS_Client.h"
 #include "src/Status.h"
 #include "src/Radio/Radio.h"
 #include "src/ArduinoOTA/ArduinoOTA.h"
@@ -91,6 +92,7 @@
 
 ConfigManager& configManager = ConfigManager::getInstance();
 MQTT_Client& mqtt = MQTT_Client::getInstance();
+MQTTGS_Client &mqtt_gs = MQTTGS_Client::getInstance();
 Radio& radio = Radio::getInstance();
 
 const char* ntpServer = "time.cloudflare.com";
@@ -165,6 +167,7 @@ void setup()
   displayShowInitialCredits();
   configManager.delay(1000);
   mqtt.begin();
+  mqtt_gs.begin();
 
   if (configManager.getOledBright() == 0)
   {
@@ -219,6 +222,7 @@ void loop() {
   // connected
 
   mqtt.loop();
+  mqtt_gs.loop();
   OTA::loop();
   if (configManager.getOledBright() != 0) displayUpdate();
 }
